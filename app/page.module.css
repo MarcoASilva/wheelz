@@ -1,0 +1,452 @@
+.main {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+}
+
+.container {
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  animation: fadeIn 0.6s ease-out;
+}
+
+/* Header Styles */
+.header {
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.logo {
+  width: 48px;
+  height: 48px;
+  color: var(--accent-primary);
+  animation: float 4s ease-in-out infinite;
+}
+
+.logo svg {
+  width: 100%;
+  height: 100%;
+}
+
+.title {
+  font-family: 'Instrument Serif', serif;
+  font-size: 3.5rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-primary) 50%, var(--accent-secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Content Area */
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Upload Section */
+.uploadSection {
+  width: 100%;
+}
+
+.dropzone {
+  position: relative;
+  width: 100%;
+  min-height: 400px;
+  border: 2px dashed var(--border-color);
+  border-radius: 24px;
+  background: var(--bg-secondary);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.dropzone:hover:not(.hasImage) {
+  border-color: var(--accent-primary);
+  background: var(--bg-tertiary);
+  box-shadow: 0 0 40px var(--accent-glow);
+}
+
+.dropzone.dragging {
+  border-color: var(--accent-primary);
+  background: var(--bg-tertiary);
+  box-shadow: 0 0 60px var(--accent-glow);
+  transform: scale(1.01);
+}
+
+.dropzone.hasImage {
+  border-style: solid;
+  cursor: default;
+}
+
+.fileInput {
+  display: none;
+}
+
+.dropzoneContent {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.uploadIcon {
+  width: 72px;
+  height: 72px;
+  color: var(--text-muted);
+  transition: all 0.3s ease;
+}
+
+.dropzone:hover .uploadIcon {
+  color: var(--accent-primary);
+  transform: translateY(-4px);
+}
+
+.uploadIcon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.dropzoneText {
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+}
+
+.highlight {
+  color: var(--accent-primary);
+  font-weight: 600;
+}
+
+.dropzoneHint {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+/* Image Preview */
+.imagePreview {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.previewImage {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.imageOverlay {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.imageLabel {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border: 1px solid var(--border-color);
+}
+
+.fileName {
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  padding: 0.375rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Action Buttons */
+.actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.transformButton {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  font-family: 'Syne', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--bg-primary);
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 20px var(--accent-glow);
+}
+
+.transformButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px var(--accent-glow);
+}
+
+.transformButton:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.transformButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.transformButton svg {
+  width: 20px;
+  height: 20px;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.resetButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 1.5rem;
+  font-family: 'Syne', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.resetButton:hover {
+  color: var(--text-primary);
+  background: var(--bg-tertiary);
+  border-color: var(--border-hover);
+}
+
+.resetButton svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Error Display */
+.error {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 12px;
+  color: var(--error);
+  font-size: 0.9rem;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.error svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* Result Section */
+.resultSection {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 24px;
+  padding: 2rem;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.resultHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.resultTitle {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.75rem;
+  font-weight: 400;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sparkle {
+  font-size: 1.5rem;
+}
+
+.downloadButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--accent-primary);
+  background: rgba(249, 115, 22, 0.1);
+  border: 1px solid var(--accent-primary);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.downloadButton:hover {
+  background: rgba(249, 115, 22, 0.2);
+  transform: translateY(-1px);
+}
+
+.downloadButton svg {
+  width: 18px;
+  height: 18px;
+}
+
+.resultImage {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  background: var(--bg-tertiary);
+  border-radius: 16px;
+}
+
+.resultImage img {
+  max-width: 100%;
+  max-height: 600px;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 2rem 0;
+  border-top: 1px solid var(--border-color);
+  margin-top: auto;
+}
+
+.footer p {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .main {
+    padding: 1rem;
+  }
+
+  .title {
+    font-size: 2.5rem;
+  }
+
+  .subtitle {
+    font-size: 0.875rem;
+  }
+
+  .dropzone {
+    min-height: 300px;
+    border-radius: 16px;
+  }
+
+  .imagePreview {
+    min-height: 300px;
+    padding: 1rem;
+  }
+
+  .uploadIcon {
+    width: 56px;
+    height: 56px;
+  }
+
+  .transformButton {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .resetButton {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .resultSection {
+    padding: 1.5rem;
+    border-radius: 16px;
+  }
+
+  .resultHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .downloadButton {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
