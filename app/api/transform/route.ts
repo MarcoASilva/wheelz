@@ -1,18 +1,30 @@
+import 'server-only';
+
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { NextRequest, NextResponse } from 'next/server';
 
 // Initialize the Google AI client
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY || '');
 
+// Static prompt for wheel swapping
+const WHEEL_SWAP_PROMPT = 'swap the car wheels with the ones in the second image';
+
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
-    const imageFile = formData.get('image') as File;
-    const prompt = formData.get('prompt') as string;
+    const carImageFile = formData.get('carImage') as File;
+    const wheelzImageFile = formData.get('wheelzImage') as File;
 
-    if (!imageFile) {
+    if (!carImageFile) {
       return NextResponse.json(
-        { error: 'No image provided' },
+        { error: 'No car image provided' },
+        { status: 400 }
+      );
+    }
+
+    if (!wheelzImageFile) {
+      return NextResponse.json(
+        { error: 'No wheelz image provided' },
         { status: 400 }
       );
     }
@@ -24,15 +36,19 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Convert the file to base64
-    const bytes = await imageFile.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-    const base64Image = buffer.toString('base64');
+    // Convert the car image to base64
+    const carBytes = await carImageFile.arrayBuffer();
+    const carBuffer = Buffer.from(carBytes);
+    const carBase64 = carBuffer.toString('base64');
+    const carMimeType = carImageFile.type || 'image/jpeg';
 
-    // Determine MIME type
-    const mimeType = imageFile.type || 'image/jpeg';
+    // Convert the wheelz image to base64
+    const wheelzBytes = await wheelzImageFile.arrayBuffer();
+    const wheelzBuffer = Buffer.from(wheelzBytes);
+    const wheelzBase64 = wheelzBuffer.toString('base64');
+    const wheelzMimeType = wheelzImageFile.type || 'image/jpeg';
 
-    // Use the nanobanana model as specified by the user
+    // Use the image generation model
     const model = genAI.getGenerativeModel({ 
       model: 'gemini-2.5-flash-image',
       generationConfig: {
@@ -41,15 +57,21 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    // Create the content with image and prompt
+    // Create the content with both images and the static prompt
     const result = await model.generateContent([
       {
         inlineData: {
-          mimeType: mimeType,
-          data: base64Image,
+          mimeType: carMimeType,
+          data: carBase64,
         },
       },
-      { text: prompt || 'Swap the wheels from the car picture with BBS FI-R 20 inches wheels' },
+      {
+        inlineData: {
+          mimeType: wheelzMimeType,
+          data: wheelzBase64,
+        },
+      },
+      { text: WHEEL_SWAP_PROMPT },
     ]);
 
     const response = result.response;
@@ -100,6 +122,5 @@ export async function POST(request: NextRequest) {
 export const config = {
   api: {
     bodyParser: false,
-  },
+  } as const,
 };
-
